@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Tasks template for modernization plan. Generate this file alongside plan.md to track individual migration tasks.",
+  "tasks": [
+    {
+      "type": "upgrade",
+      "id": "001-upgrade-dotnet-10",
+      "description": "Upgrade the application to .NET 10 (net10.0), the latest Long-Term Support release.",
+      "reason": "The user explicitly requested an upgrade to .NET 10. Upgrading ensures the application runs on the latest LTS runtime with improved performance, security patches, and long-term support.",
+      "requirements": "Upgrade all project target frameworks to net10.0. Update project files, global.json (if present), and any CI/CD pipeline configuration to use .NET 10. Ensure the project builds successfully and all existing unit tests pass after the upgrade.",
+      "successCriteria": {
+        "passBuild": "true",
+        "passUnitTests": "true"
+      }
+    },
+    {
+      "type": "security",
+      "id": "002-security-cve-remediation",
+      "description": "Scan all project dependencies for known CVEs and remediate any identified vulnerabilities.",
+      "reason": "Security remediation is required in every modernization plan to ensure the application is free of known vulnerabilities before deployment.",
+      "requirements": "Upgrade vulnerable dependencies to the minimum patched version. If a CVE fix requires a major version upgrade, document the affected dependency, the current version, the upgraded major version, and the breaking change risk. Verify that the project builds and all tests pass after remediation.",
+      "environmentConfiguration": "Runtime environment established by the .NET 10 upgrade task.",
+      "dependencies": ["001-upgrade-dotnet-10"],
+      "skills": [
+        {
+          "name": "validate-cves-and-fix",
+          "location": "builtin"
+        }
+      ],
+      "successCriteria": {
+        "passBuild": "true",
+        "passUnitTests": "true"
+      }
+    }
+  ],
+  "metadata": {
+    "planName": "plan",
+    "projectName": "copilot-api",
+    "language": "dotnet",
+    "createdAt": "2026-06-02T06:33:34Z",
+    "version": "1.0"
+  }
+}
