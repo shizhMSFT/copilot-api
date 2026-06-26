@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Tasks template for modernization plan. Generate this file alongside plan.md to track individual migration tasks.",
+  "tasks": [
+    {
+      "type": "upgrade",
+      "id": "001-upgrade-node-dependencies",
+      "description": "Upgrade all Node.js/Bun package dependencies (production and development) in the copilot-api project to their latest stable versions.",
+      "reason": "The project dependencies may have newer versions available that include bug fixes, performance improvements, and security patches. Keeping dependencies current reduces vulnerability exposure and ensures compatibility with the latest ecosystem tooling.",
+      "requirements": "Update all entries in package.json (dependencies and devDependencies) to their latest stable versions. Resolve any breaking changes introduced by major version bumps (e.g., API changes in hono, undici, zod, or tsdown). Ensure the project builds successfully with 'bun run build' and all existing tests pass with 'bun test' after the upgrade. Document any breaking changes or manual migration steps required for major version bumps.",
+      "successCriteria": {
+        "passBuild": "true",
+        "passUnitTests": "true"
+      },
+      "dependencies": []
+    },
+    {
+      "type": "security",
+      "id": "002-security-cve-remediation",
+      "description": "Scan all project dependencies for known CVEs and remediate any identified vulnerabilities to ensure the application is secure.",
+      "reason": "After upgrading dependencies, a targeted CVE scan ensures no known vulnerabilities remain in direct or transitive dependencies before the application is used in production.",
+      "requirements": "Scan all production and development dependencies for known CVEs. Upgrade vulnerable dependencies to the minimum patched version. If a CVE fix requires a major version upgrade, document the affected dependency, its current version, the target major version, and the breaking change risk. Verify that the project builds and all tests pass after remediation.",
+      "successCriteria": {
+        "passBuild": "true",
+        "passUnitTests": "true"
+      },
+      "skills": [
+        {
+          "name": "validate-cves-and-fix",
+          "location": "builtin"
+        }
+      ],
+      "dependencies": [
+        "001-upgrade-node-dependencies"
+      ]
+    }
+  ],
+  "metadata": {
+    "planName": "plan",
+    "projectName": "copilot-api",
+    "language": "javascript",
+    "createdAt": "2026-06-02T08:30:47.199Z",
+    "version": "1.0"
+  }
+}
